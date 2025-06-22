@@ -10,6 +10,8 @@ import { MeetingsList } from './components/Meetings/MeetingsList';
 import { ServiceList } from './components/Business/ServiceInfo';
 import { CustomerView } from './components/Customer/CustomerView';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { CustomerProfile } from './components/Customer/CustomerProfile';
+import { AdminUserManager } from './components/Business/AdminUserManager';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           {/* { Customer Routes } */}
           <Route path="/" element={<CustomerLayout />}>
             <Route index element={<CustomerView />} />
+            <Route path="profile" element={<CustomerProfile/>} />
+
           </Route>
 
           {/* Admin Routes */}
@@ -33,6 +37,8 @@ function App() {
             <Route path="business" element={<BusinessInfo />} />
             <Route path="services" element={<ServiceList />} />
             <Route path="meetings" element={<MeetingsList />} />
+            <Route path="users" element={<AdminUserManager />} />
+
 
           </Route>
 

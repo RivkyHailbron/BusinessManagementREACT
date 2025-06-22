@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Building2, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { loadUserFromStorage, logout } from '../../store/slices/authSlice';
+import { CustomerProfile } from '../Customer/CustomerProfile';
 
 export const CustomerLayout: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,6 +34,7 @@ export const CustomerLayout: React.FC = () => {
                 <span>יציאה</span>
               </button>
             </div>
+            <CustomerProfile />
           </div>
         </div>
       </nav>

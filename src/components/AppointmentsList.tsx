@@ -60,7 +60,7 @@ export const AppointmentsList: React.FC = () => {
         </div>
       ) : (
         <div className="space-y-4">
-          {appointments.map((appointment) => (
+          {appointments.map((appointment: any) => (
             <div
               key={appointment.id}
               className={`rounded-lg p-6 transition-all hover:shadow-md ${getAppointmentColorClass(appointment.date)}`}
