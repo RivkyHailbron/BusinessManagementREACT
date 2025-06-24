@@ -6,12 +6,12 @@ import { AdminLayout } from './components/Layout/AdminLayout';
 import { CustomerLayout } from './components/Layout/CustomerLayout';
 import { LoginForm } from './components/Auth/LoginForm';
 import { BusinessInfo } from './components/Business/BusinessInfo';
-import { MeetingsList } from './components/Meetings/MeetingsList';
+import { MeetingsList } from './components/Meetings/MeetingList';
 import { ServiceList } from './components/Business/ServiceInfo';
 import { CustomerView } from './components/Customer/CustomerView';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { CustomerProfile } from './components/Customer/CustomerProfile';
 import { AdminUserManager } from './components/Business/AdminUserManager';
+import SignUpForm  from './components/Auth/SignUP';
 
 function App() {
   return (
@@ -21,13 +21,12 @@ function App() {
           {/* { Customer Routes } */}
           <Route path="/" element={<CustomerLayout />}>
             <Route index element={<CustomerView />} />
-            <Route path="profile" element={<CustomerProfile/>} />
-
           </Route>
 
           {/* Admin Routes */}
           <Route path="/login" element={<LoginForm />} />
-
+          <Route path="/signup" element={<SignUpForm/>} />
+          <Route path="/meetings" element={<MeetingsList />} />
           <Route path="/admin/dashboard" element={
             <ProtectedRoute>
               <AdminLayout />
@@ -38,7 +37,6 @@ function App() {
             <Route path="services" element={<ServiceList />} />
             <Route path="meetings" element={<MeetingsList />} />
             <Route path="users" element={<AdminUserManager />} />
-
 
           </Route>
 

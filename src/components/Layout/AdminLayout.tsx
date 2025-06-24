@@ -3,6 +3,7 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogOut, Building2, Calendar, Settings, UsersIcon, BriefcaseIcon, ClipboardListIcon } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { logout, loadUserFromStorage } from '../../store/slices/authSlice';
+import { SignUpSignIn } from '../Auth/signUp-signIn';
 
 export const AdminLayout: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -39,6 +40,7 @@ export const AdminLayout: React.FC = () => {
                 <LogOut className="h-4 w-4" />
                 <span>יציאה</span>
               </button>
+              <SignUpSignIn />
             </div>
           </div>
         </div>
@@ -51,8 +53,8 @@ export const AdminLayout: React.FC = () => {
               <Link
                 to="/admin/dashboard/business"
                 className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin/dashboard/business')
-                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                    : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                  : 'text-gray-700 hover:bg-gray-100'
                   }`}
               >
                 <Settings className="h-5 w-5" />
@@ -61,8 +63,8 @@ export const AdminLayout: React.FC = () => {
               <Link
                 to="/admin/dashboard/services"
                 className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin/dashboard/services')
-                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                    : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                  : 'text-gray-700 hover:bg-gray-100'
                   }`}
               >
                 <ClipboardListIcon className="h-5 w-5" />
@@ -71,8 +73,8 @@ export const AdminLayout: React.FC = () => {
               <Link
                 to="/admin/dashboard/meetings"
                 className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin/dashboard/meetings')
-                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                    : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                  : 'text-gray-700 hover:bg-gray-100'
                   }`}
               >
                 <Calendar className="h-5 w-5" />
@@ -82,8 +84,8 @@ export const AdminLayout: React.FC = () => {
               <Link
                 to="/admin/dashboard/users"
                 className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin/dashboard/customers')
-                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                    : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                  : 'text-gray-700 hover:bg-gray-100'
                   }`}
               >
                 <UsersIcon className="h-5 w-5" />
@@ -93,6 +95,7 @@ export const AdminLayout: React.FC = () => {
           </aside>
 
           <main className="flex-1">
+
             <Outlet />
           </main>
         </div>

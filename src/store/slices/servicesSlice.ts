@@ -19,6 +19,17 @@ export const fetchServices = createAsyncThunk(
     }
   }
 );
+export const fetchServiceById = createAsyncThunk(
+  'services/fetchServiceById',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const service = await servicesAPI.getService(id);
+      return service;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'שגיאה בטעינת השירות');
+    }
+  }
+);
 
 export const createService = createAsyncThunk(
   'services/createService',
@@ -65,6 +76,7 @@ const servicesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // מקרים קיימים
       .addCase(fetchServices.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -78,34 +90,19 @@ const servicesSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      .addCase(createService.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createService.fulfilled, (state, action) => {
-        state.loading = false;
-        // Note: In real app, the service would have an ID from the server
-        const newService = { ...action.payload, id: Date.now().toString() };
-        state.services.push(newService);
-        state.error = null;
-      })
-      .addCase(createService.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(deleteService.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteService.fulfilled, (state, action) => {
-        state.loading = false;
-        state.services = state.services.filter(service => service.id !== action.payload);
-        state.error = null;
-      })
-      .addCase(deleteService.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
+      // הוספת המקרים עבור fetchServiceById
+    .addCase(fetchServiceById.fulfilled, (state, action) => {
+  state.loading = false;
+  state.error = null;
+  // הוספה או עדכון של השירות ב-state.services
+  const existingIndex = state.services.findIndex(s => s.id === action.payload.id);
+  if (existingIndex !== -1) {
+    state.services[existingIndex] = action.payload;
+  } else {
+    state.services.push(action.payload);
+  }
+})
+      
   },
 });
 

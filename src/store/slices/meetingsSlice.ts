@@ -27,7 +27,7 @@ export const createMeeting = createAsyncThunk(
       await meetingsAPI.createMeeting(meeting);
       return meeting;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'שגיאה ביצירת הפגישה');
+      return rejectWithValue('נקבעה כבר פגישה לזמן זה , בחר שעה או תאריך אחר');
     }
   }
 );
@@ -43,6 +43,18 @@ export const deleteMeeting = createAsyncThunk(
     }
   }
 );
+
+export const updateMeeting = createAsyncThunk(
+  'meetings/updateMeeting',     
+      async ({ id, meeting }: { id: string; meeting: Partial<Meeting> }, { rejectWithValue }) => {
+    try {
+      await meetingsAPI.updateMeeting(id, meeting);
+      return { id, meeting };
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'שגיאה בעדכון הפגישה');
+    }
+  } 
+  );           
 
 const meetingsSlice = createSlice({
   name: 'meetings',
@@ -102,7 +114,15 @@ const meetingsSlice = createSlice({
       .addCase(deleteMeeting.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
+      // ב-meetingsSlice.ts
+      .addCase(updateMeeting.fulfilled, (state: MeetingsState, action) => {
+  state.loading = false;
+  const idx = state.meetings.findIndex(m => m.id === action.payload.id);
+  if (idx !== -1) {
+    state.meetings[idx] = { ...state.meetings[idx], ...action.payload.meeting };
+  }
+})
   },
 });
 

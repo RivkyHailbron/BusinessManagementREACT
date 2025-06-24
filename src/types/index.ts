@@ -23,11 +23,11 @@ export interface Service {
 
 export interface Meeting {
   id: string;
-  serviceId: string;
-  serviceName: string;
+  serviceID: string;
   date: string;
   time: string;
-  status: 'confirmed' | 'pending' | 'cancelled';
+  duration:string;
+  userEmail:string;
 }
 
 export interface AuthState {
