@@ -14,7 +14,9 @@ export const LoginForm: React.FC = () => {
 
   useEffect(() => {
     const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+    console.log(isAuthenticated, user);
     if (isAuthenticated && user?.role === 'admin') {
+      console.log('Admin user detected, redirecting to dashboard*************************************');
       navigate('/admin/dashboard/business');
     } else if (isAuthenticated && user?.role === 'user') {
       navigate('/');
@@ -105,15 +107,7 @@ export const LoginForm: React.FC = () => {
           <p className="text-sm text-gray-600">אם אין לך חשבון, <a href="/signup" className="text-blue-600 hover:underline">הרשמה</a></p>
           <p className="text-sm text-gray-600">או התחבר עם</p>
           <button
-            onClick={() => {
-              window.location.href =
-                `https://accounts.google.com/o/oauth2/v2/auth?` +
-                `client_id=1041815008887-kfjrqd5krk8upatj0sgkoc7i0sfi4iv1.apps.googleusercontent.com&` +
-                `redirect_uri=http://localhost:5173` +
-                `response_type=code&` +
-                `scope=openid%20email%20profile&` +
-                `access_type=offline`;
-            }}
+
           >
             <GoogleLoginButton />
           </button>

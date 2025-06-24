@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { AuthState, User } from '../../types';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { AuthState } from '../../types';
 import { authAPI } from '../../services/api';
 import { api } from '../../services/api'; // הנתיב בהתאם למיקום הקובץ שלך
 
@@ -15,7 +15,7 @@ export const signIn = createAsyncThunk(
   'auth/signIn',
   async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response:any = await authAPI.signIn(email, password);
+      const response: any = await authAPI.signIn(email, password);
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
       return response;
@@ -41,7 +41,7 @@ export const googleLogin = createAsyncThunk(
   'auth/googleLogin',
   async ({ idToken }: { idToken: string }, { rejectWithValue }) => {
     try {
-      const response:any = await api.post('/auth/google-sign-in', { idToken });
+      const response: any = await api.post('/auth/google-sign-in', { idToken });
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
@@ -50,7 +50,6 @@ export const googleLogin = createAsyncThunk(
     }
   }
 );
-
 
 const authSlice = createSlice({
   name: 'auth',
@@ -102,6 +101,22 @@ const authSlice = createSlice({
       .addCase(signUp.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(googleLogin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user; // עדכון המשתמש
+        state.token = action.payload.token; // עדכון הטוקן
+        state.isAuthenticated = true; // עדכון הסטייט ל-true
+        state.error = null;
+      })
+      .addCase(googleLogin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+        state.isAuthenticated = false; // אם הכניסה נכשלה
       });
   },
 });
